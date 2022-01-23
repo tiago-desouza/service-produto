@@ -5,4 +5,6 @@ import io.github.tiagodesouza.serviceproduto.model.Produto;
 public interface ProdutoService {
 
     Produto inserir(Produto produto);
+
+    Produto one(Long id);
 }
