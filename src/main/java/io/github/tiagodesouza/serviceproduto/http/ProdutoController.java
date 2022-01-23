@@ -1,5 +1,8 @@
 package io.github.tiagodesouza.serviceproduto.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import io.github.tiagodesouza.serviceproduto.http.data.request.ProdutoPersistDto;
 import io.github.tiagodesouza.serviceproduto.http.data.response.ProdutoResponseDto;
 import io.github.tiagodesouza.serviceproduto.model.Produto;
@@ -30,4 +33,13 @@ public interface ProdutoController {
     })
     @GetMapping("{id}")
     Produto one(@PathVariable("id") Long id);
+
+    @PatchMapping("{id}")
+    Produto update(@PathVariable("id") Long id, @RequestBody JsonPatch patch) throws JsonPatchException, JsonProcessingException;
+
+    @DeleteMapping("{id}")
+    void delete(@PathVariable("id") Long id);
+
+    @PutMapping("{id}")
+    Produto updateAll(@PathVariable("id") Long id, @RequestBody ProdutoPersistDto dto);
 }
