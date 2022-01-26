@@ -1,7 +1,10 @@
 package io.github.tiagodesouza.serviceproduto.service;
 
+import io.github.tiagodesouza.serviceproduto.event.ProdutoPersistEvent;
 import io.github.tiagodesouza.serviceproduto.model.Produto;
 import io.github.tiagodesouza.serviceproduto.repository.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
@@ -11,13 +14,18 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     final ProdutoRepository produtoRepository;
 
-    public ProdutoServiceImpl(ProdutoRepository produtoRepository) {
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    public ProdutoServiceImpl(ProdutoRepository produtoRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.produtoRepository = produtoRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
     public Produto save(Produto produto) {
-        return produtoRepository.save(produto);
+        Produto produtoPersist =  produtoRepository.save(produto);
+        applicationEventPublisher.publishEvent(new ProdutoPersistEvent(this, produto));
+        return produtoPersist;
     }
 
     @Override
@@ -41,6 +49,6 @@ public class ProdutoServiceImpl implements ProdutoService {
             throw new NoResultException(String.format("Produto de código %d não encontrado", produto.getId()));
         }
 
-        return produtoRepository.save(produto);
+        return save(produto);
     }
 }

@@ -1,0 +1,28 @@
+version: '3'
+services:
+
+  jms:
+    container_name: jms
+    image: vromero/activemq-artemis
+    restart: always
+    environment:
+      ARTEMIS_USERNAME: 'tiagosouza'
+      ARTEMIS_PASSWORD: '123456'
+    ports:
+      - 61616:61616
+      - 8161:8161
+    expose:
+      - 61616
+      - 8161
+
+  produto:
+    container_name: produto
+    image: pachenco/service-produto:1.0.0
+    environment:
+      JMS_HOST: jms
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    depends_on:
+      - jms

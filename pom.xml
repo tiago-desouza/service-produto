@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.github.tiago-desouza</groupId>
     <artifactId>service-produto</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>service-produto</name>
     <description>service-produto</description>
     <properties>
@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-activemq</artifactId>
+            <artifactId>spring-boot-starter-artemis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -87,6 +87,34 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <from>
+                        <image>openjdk:8-jdk-slim-buster</image>
+                        <auth>
+                            <username>pachenco</username>
+                            <password>Lgscorpion.1</password>
+                        </auth>
+                    </from>
+                    <to>
+                        <image>pachenco/service-produto:${version}</image>
+                        <auth>
+                            <username>pachenco</username>
+                            <password>Lgscorpion.1</password>
+                        </auth>
+                    </to>
+                    <container>
+                        <mainClass>io.github.tiagodesouza.serviceproduto.ServiceProdutoApplication</mainClass>
+                    </container>
+                </configuration>
+            </plugin>
+
+
         </plugins>
     </build>
 
